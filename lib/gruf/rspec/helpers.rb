@@ -37,7 +37,7 @@ module Gruf
           username = auth_opts.fetch(:username, '')
           password = auth_opts.fetch(:password, '')
           auth_string = username.to_s.empty? ? password : "#{username}:#{password}"
-          md['authorization'] = "Basic #{Base64.encode64(auth_string)}" unless auth_string.empty?
+          md[auth_opts.fetch(:header_key, 'authorization').to_s] = "Basic #{Base64.encode64(auth_string)}" unless auth_string.empty?
         end
         md
       end

@@ -1,5 +1,7 @@
 # gruf-rspec
 
+[![Build Status](https://travis-ci.com/bigcommerce/gruf-rspec.svg?token=D3Cc4LCF9BgpUx4dpPpv&branch=master)](https://travis-ci.com/bigcommerce/gruf-rspec)
+
 RSpec assistance helpers and custom type for easy testing Gruf controllers with RSpec.
 
 ## Installation
