@@ -6,19 +6,15 @@ RSpec assistance helpers and custom type for easy testing Gruf controllers with 
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
 ```ruby
 gem 'gruf-rspec'
 ```
+    
+Then add the following code to your `spec_helper.rb`:
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install gruf-rspec
+```ruby
+require 'gruf/rspec'
+``` 
 
 ## Usage
 

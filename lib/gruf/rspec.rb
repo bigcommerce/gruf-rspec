@@ -13,49 +13,50 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+begin
+  require 'rspec/core'
+  require 'rspec/expectations'
+  RSPEC_NAMESPACE = RSpec
+  RSPEC_RUNNER = RSpec
+rescue LoadError # old rspec compat
+  require 'spec'
+  RSPEC_NAMESPACE = Spec
+  RSPEC_RUNNER = Spec::Runner
+end
+
 require_relative 'rspec/version'
 require_relative 'rspec/helpers'
 
-module Gruf
-  ##
-  # Base module
-  #
-  module Rspec
+RSPEC_RUNNER.configure do |config|
+  config.include Gruf::Rspec::Helpers
+
+  config.define_derived_metadata(file_path: Regexp.new('/spec/rpc/')) do |metadata|
+    metadata[:type] = :gruf_controller
   end
-end
 
-if defined?(RSpec)
-  RSpec.configure do |config|
-    config.define_derived_metadata(file_path: Regexp.new('/spec/rpc/')) do |metadata|
-      metadata[:type] = :gruf_controller
-    end
+  config.before(:each, type: :gruf_controller) do
+    if respond_to?(:method_name) && respond_to?(:request)
+      define_singleton_method :grpc_service do
+        described_class.bound_service
+      end
 
-    config.before(:each, type: :gruf_controller) do
-      if respond_to?(:method_name) && respond_to?(:request)
-        define_singleton_method :grpc_service do
-          described_class.bound_service
-        end
+      define_singleton_method :gruf_method_key do
+        @gruf_method ||= method_name.to_s.underscore.to_sym
+      end
 
-        define_singleton_method :gruf_method_key do
-          @gruf_method ||= method_name.to_s.underscore.to_sym
-        end
+      define_singleton_method :gruf_controller do
+        @gruf_controller ||= described_class.new(
+          method_key: gruf_method_key,
+          service: grpc_service,
+          rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
+          active_call: grpc_active_call,
+          message: request
+        )
+      end
 
-        define_singleton_method :gruf_controller do
-          @gruf_controller ||= described_class.new(
-            method_key: gruf_method_key,
-            service: grpc_service,
-            rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
-            active_call: grpc_active_call,
-            message: request
-          )
-        end
-
-        define_singleton_method :response do
-          @response ||= gruf_controller.call(gruf_method_key)
-        end
+      define_singleton_method :response do
+        @response ||= gruf_controller.call(gruf_method_key)
       end
     end
-
-    config.include Gruf::Rspec::Helpers
   end
 end
