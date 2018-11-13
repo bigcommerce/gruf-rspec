@@ -31,27 +31,27 @@ if defined?(RSpec)
     end
 
     config.before(:each, type: :gruf_controller) do
-      if respond_to?(:grpc_method) && respond_to?(:grpc_message)
+      if respond_to?(:method_name) && respond_to?(:request)
         define_singleton_method :grpc_service do
           described_class.bound_service
         end
 
-        define_singleton_method :gruf_method do
-          @gruf_method ||= grpc_method.to_s.underscore.to_sym
+        define_singleton_method :gruf_method_key do
+          @gruf_method ||= method_name.to_s.underscore.to_sym
         end
 
         define_singleton_method :gruf_controller do
           @gruf_controller ||= described_class.new(
-            method_key: gruf_method,
+            method_key: gruf_method_key,
             service: grpc_service,
-            rpc_desc: grpc_service.rpc_descs[grpc_method.to_sym],
+            rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
             active_call: grpc_active_call,
-            message: grpc_message
+            message: request
           )
         end
 
-        define_singleton_method :gruf_response do
-          @gruf_response ||= gruf_controller.call(gruf_method)
+        define_singleton_method :response do
+          @response ||= gruf_controller.call(gruf_method_key)
         end
       end
     end

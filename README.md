@@ -21,26 +21,36 @@ Or install it yourself as:
 ## Usage
 
 * Add a test for a Gruf controller in `spec/rpc`
-* Add two `let` blocks: `grpc_method` and `grpc_message`
-* Have your subject be `gruf_response`
+* Add two `let` blocks: `method_name` and `request`
+* Have your subject be `response`
 * Enjoy!
 
 ## Example
 
-In `spec/rpc/thing_controller_spec.rb`:
+Let's assume you have a gruf controller named `ThingController` that is bound to the gRPC 
+service `Rpc::Things::Service`. That has a method `GetThing`:
+
+```ruby
+class ThingController < Gruf::Controllers::Base
+  bind ::Rpc::Things::Service
+  
+  def get_thing
+    Rpc::GetThingResponse.new(id: request.message.id)
+  end
+end
+```
+
+To test it, you'd create `spec/rpc/thing_controller_spec.rb`:
 
 ```ruby
 describe ThingController do
-  subject { gruf_response }
-
   describe '.get_thing' do
-    let(:id) { rand(0..100) }
-    let(:grpc_method) { :GetThing }
-    let(:grpc_message) { Rpc::GetThingResp.new(id: id) }
+    let(:method_name) { :GetThing }
+    let(:request) { Rpc::GetThingResp.new(id: rand(1..100)) }
     
     it 'return the thing' do
-      expect(subject).to be_a(Rpc::GetThingResp)
-      expect(subject.id).to eq id
+      expect(response).to be_a(Rpc::GetThingResponse)
+      expect(response.id).to eq request.id
     end
   end
 end
