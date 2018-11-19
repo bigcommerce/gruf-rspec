@@ -20,8 +20,7 @@ require 'gruf/rspec'
 
 * Add a test for a Gruf controller in `spec/rpc`
 * Run the `run_rpc` method with two args: The gRPC method name, and the request object
-* Pass a block that you will get the response in
-* Enjoy!
+* Validate the response
 
 ## Example
 
@@ -45,23 +44,24 @@ describe ThingController do
   describe '.get_thing' do
     let(:request_proto) { Rpc::GetThingResponse.new(id: rand(1..100)) }
     
+    subject { run_rpc(:GetThing, request_proto) }
+    
     it 'will return the thing' do
-      run_rpc(:GetThing, request_proto) do |resp|
-        expect(resp).to be_a(Rpc::GetThingResponse)
-        expect(resp.id).to eq request_proto.id
-      end
+      expect(subject).to be_a(Rpc::GetThingResponse)
+      expect(subject.id).to eq request_proto.id
     end
   end
 end
 ```
 
-Alternatively, you can not pass a block and just get the return value:
+Alternatively, you can pass a block:
 
 ```ruby
 it 'will return the thing' do
-  resp = run_rpc(:GetThing, request_proto)
-  expect(resp).to be_a(Rpc::GetThingResponse)
-  expect(resp.id).to eq request_proto.id
+  run_rpc(:GetThing, request_proto) do |resp|
+    expect(resp).to be_a(Rpc::GetThingResponse)
+    expect(resp.id).to eq request_proto.id
+  end
 end
 ```
 
@@ -70,10 +70,14 @@ end
 You can match against errors as well:
 
 ```ruby
-let(:request_proto) { Rpc::GetThingResponse.new(id: rand(1..100)) }
-
-it 'should fail with the appropriate error' do
-  expect { run_rpc(:GetThing, request_proto) }.to raise_rpc_error(GRPC::InvalidArgument)
+describe 'testing an error' do
+  let(:request_proto) { Rpc::GetThingResponse.new(id: rand(1..100)) }
+  
+  subject { run_rpc(:GetThing, request_proto) }
+  
+  it 'should fail with the appropriate error' do
+    expect { subject }.to raise_rpc_error(GRPC::InvalidArgument)
+  end
 end
 ```
 
