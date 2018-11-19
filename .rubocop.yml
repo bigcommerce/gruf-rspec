@@ -125,6 +125,10 @@ Naming/PredicateName:
 Style/RegexpLiteral:
   Enabled: false
 
+# Skip because we want 2.2 support
+Style/SafeNavigation:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 
