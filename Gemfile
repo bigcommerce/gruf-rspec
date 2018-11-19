@@ -26,6 +26,6 @@ end
 group :test do
   gem 'bundler-audit'
   gem 'null-logger'
-  gem 'rspec', '~> 3.6'
+  gem 'rspec', '~> 3.8'
   gem 'simplecov', require: false
 end

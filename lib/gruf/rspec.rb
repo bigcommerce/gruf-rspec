@@ -26,6 +26,7 @@ end
 
 require_relative 'rspec/version'
 require_relative 'rspec/helpers'
+require_relative 'rspec/error_matcher'
 
 RSPEC_RUNNER.configure do |config|
   config.include Gruf::Rspec::Helpers
@@ -35,28 +36,47 @@ RSPEC_RUNNER.configure do |config|
   end
 
   config.before(:each, type: :gruf_controller) do
-    if respond_to?(:method_name) && respond_to?(:request)
-      define_singleton_method :grpc_service do
-        described_class.bound_service
-      end
-
-      define_singleton_method :gruf_method_key do
-        @gruf_method ||= method_name.to_s.underscore.to_sym
-      end
-
-      define_singleton_method :gruf_controller do
-        @gruf_controller ||= described_class.new(
-          method_key: gruf_method_key,
-          service: grpc_service,
-          rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
-          active_call: grpc_active_call,
-          message: request
-        )
-      end
-
-      define_singleton_method :response do
-        @response ||= gruf_controller.call(gruf_method_key)
-      end
+    define_singleton_method :run_rpc do |method_name, request, &block|
+      gruf_controller = gruf_controller(method_name, request)
+      resp = gruf_controller.call(gruf_controller.request.method_key)
+      block.call(resp) if block && block.is_a?(Proc)
+      resp
     end
+
+    define_singleton_method :grpc_service do
+      described_class.bound_service
+    end
+
+    define_singleton_method :gruf_controller do |method_name, request|
+      @gruf_controller ||= described_class.new(
+        method_key: method_name.to_s.underscore.to_sym,
+        service: grpc_service,
+        rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
+        active_call: grpc_active_call,
+        message: request
+      )
+    end
+  end
+end
+
+RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
+  supports_block_expectations
+
+  def with_serialized(&block)
+    @serialized_block = block
+    self
+  end
+
+  match do |rpc_call_proc|
+    @error_matcher = Gruf::Rspec::ErrorMatcher.new(
+      rpc_call_proc: rpc_call_proc,
+      expected_error_class: expected_error_class,
+      serialized_block: @serialized_block
+    )
+    @error_matcher.valid?
+  end
+
+  failure_message do |_|
+    @error_matcher.error_message
   end
 end
