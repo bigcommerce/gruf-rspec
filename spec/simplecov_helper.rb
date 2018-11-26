@@ -1,4 +1,5 @@
-# Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
+# coding: utf-8
+# Copyright (c) 2017-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 # documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -13,24 +14,19 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'bundler/setup'
-require_relative 'simplecov_helper'
-require 'grpc'
-require 'gruf'
-require 'gruf/rspec'
+require 'simplecov'
+require 'fileutils'
 
-Dir["#{File.join(File.dirname(__FILE__), 'support')}/**/*.rb"].each {|f| require f }
+if File.directory?('./coverage/')
+  coverage_path = File.realpath('./coverage/')
+  FileUtils.rm_rf(coverage_path)
+end
 
-RSpec.configure do |config|
-  config.color = true
-  config.disable_monkey_patching!
-  config.example_status_persistence_file_path = '.rspec_status'
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-  config.filter_run_excluding broken: true
-  config.mock_with :rspec do |mocks|
-    mocks.allow_message_expectations_on_nil = true
-  end
+SimpleCov.command_name 'Unit Tests'
+SimpleCov.minimum_coverage 70
+SimpleCov.start do
+  add_filter '/bin/'
+  add_filter '/coverage/'
+  add_filter '/spec/'
+  add_filter '/vendor/'
 end

@@ -5,8 +5,8 @@
 First ensure that your feature isn't already being developed or considered (see open PRs and issues). 
 If it is, please consider contributing to those initiatives.
 
-For new features, consider whether a new plugin or hook is a more beneficial solution. We'd like to keep
-gruf light and minimal, and delegate adaptive functionality out into separate plugins.
+For new features, consider whether an extending gem is a more beneficial solution. We'd like to keep
+gruf-rspec light and minimal, and delegate adaptive functionality out into separate plugins.
 
 All PRs require test coverage to be accepted when applicable.
 
@@ -22,9 +22,9 @@ instead.**
 
 ## Other Ways to Contribute
 
-* Consider contributing to gruf documentation on the wiki, reporting bugs, contributing to test coverage,
+* Consider contributing to gruf-rspec documentation on the wiki, reporting bugs, contributing to test coverage,
 or helping spread the word about gruf.
 
 * Contribute directly to gRPC! This helps gruf and all other initiatives.
 
-Thank you again for your interest in contributing to gruf!
+Thank you again for your interest in contributing to gruf-rspec!
