@@ -27,10 +27,12 @@ module Gruf
       end
 
       ##
+      # @param [Hash] metadata
       # @return [Hash]
       #
-      def build
-        authentication_hydrator.hydrate(@options.fetch(:metadata, {}))
+      def build(metadata = {})
+        metadata ||= {}
+        authentication_hydrator.hydrate(metadata)
       end
 
       private

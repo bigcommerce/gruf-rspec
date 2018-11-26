@@ -21,15 +21,20 @@ module Gruf
       #
       class Base
         ##
+        # @param [Hash] options
+        #
+        def initialize(options = {})
+          @options = options || {}
+        end
+
+        ##
         # @param [Hash] metadata The incoming request metadata
         # @return [Hash] The hydrated metadata
         #
-        def hydrate(metadata = {})
+        def hydrate(metadata)
           metadata
         end
       end
     end
   end
 end
-
-require_relative 'basic'

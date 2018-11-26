@@ -14,6 +14,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 require_relative 'authentication_hydrators/base'
+require_relative 'authentication_hydrators/basic'
 
 module Gruf
   module Rspec
@@ -70,6 +71,7 @@ module Gruf
         VALID_CONFIG_KEYS.each do |k, v|
           send((k.to_s + '='), v)
         end
+        self.rpc_spec_path = '/spec/rpc/'.freeze
         options
       end
     end

@@ -13,27 +13,39 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-require_relative 'metadata_factory'
+require 'spec_helper'
 
-module Gruf
-  module Rspec
-    module Helpers
-      ##
-      # @param [Hash] options
-      # @return [Double] The mocked call
-      #
-      def grpc_active_call(options = {})
-        md = _build_active_call_metadata(options)
-        double(:grpc_active_call, metadata: md, output_metadata: options.fetch(:output_metadata, {}))
+RSpec.describe Gruf::Rspec::MetadataFactory do
+  let(:options) { {} }
+  let(:metadata) { {} }
+  let(:factory) { described_class.new(options) }
+
+  describe '.build' do
+    subject { factory.build(metadata) }
+
+    context 'when using basic auth' do
+      let(:username) { 'foo' }
+      let(:password) { 'bar' }
+      let(:options) do
+        {
+          authentication_options: {
+            header_key: 'authorization',
+            username: username,
+            password: password,
+          },
+          authentication_type: :basic
+        }
       end
 
-      private
+      it 'should hydrate the auth' do
+        expect(subject.key?('authorization')).to be_truthy
+        expect(subject['authorization']).to eq "Basic #{Base64.encode64('foo:bar')}"
+      end
+    end
 
-      ##
-      # @param [Hash] options
-      #
-      def _build_active_call_metadata(options)
-        Gruf::Rspec::MetadataFactory.new(options).build(options.fetch(:metadata, {}))
+    context 'when using no auth' do
+      it 'should noop' do
+        expect(subject).to eq({})
       end
     end
   end

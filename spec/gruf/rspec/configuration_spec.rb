@@ -13,28 +13,36 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-require_relative 'metadata_factory'
+require 'spec_helper'
 
-module Gruf
-  module Rspec
-    module Helpers
-      ##
-      # @param [Hash] options
-      # @return [Double] The mocked call
-      #
-      def grpc_active_call(options = {})
-        md = _build_active_call_metadata(options)
-        double(:grpc_active_call, metadata: md, output_metadata: options.fetch(:output_metadata, {}))
+class TestConfiguration
+  include Gruf::Rspec::Configuration
+end
+
+RSpec.describe Gruf::Rspec::Configuration do
+  let(:obj) { TestConfiguration.new }
+
+  describe '.reset' do
+    subject { obj.rpc_spec_path }
+
+    it 'should reset config vars to default' do
+      obj.configure do |c|
+        c.rpc_spec_path = '/spec/gruf/'
       end
+      obj.reset
+      expect(subject).to_not eq '/spec/gruf/'
+    end
+  end
 
-      private
+  describe '.options' do
+    subject { obj.options }
+    before do
+      obj.reset
+    end
 
-      ##
-      # @param [Hash] options
-      #
-      def _build_active_call_metadata(options)
-        Gruf::Rspec::MetadataFactory.new(options).build(options.fetch(:metadata, {}))
-      end
+    it 'should return the options hash' do
+      expect(obj.options).to be_a(Hash)
+      expect(obj.options[:rpc_spec_path]).to eq '/spec/rpc/'
     end
   end
 end

@@ -13,13 +13,15 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+require 'base64'
+
 module Gruf
   module Rspec
     module AuthenticationHydrators
       ##
       # Automatically hydrate request metadata with basic authentication options
       #
-      class Basic
+      class Basic < ::Gruf::Rspec::AuthenticationHydrators::Base
         ##
         # @param [Hash] metadata The incoming request metadata
         # @return [Hash] The hydrated metadata
@@ -28,7 +30,7 @@ module Gruf
           username = auth_opts.fetch(:username, '')
           password = auth_opts.fetch(:password, '')
           auth_string = username.to_s.empty? ? password : "#{username}:#{password}"
-          metadata[auth_opts.fetch(:header_key, 'authorization').to_s] = "Basic #{Base64.encode64(auth_string)}" unless auth_string.empty?
+          metadata[auth_opts.fetch(:header_key, 'authorization').to_s] = "Basic #{::Base64.encode64(auth_string)}" unless auth_string.empty?
           metadata
         end
 
