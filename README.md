@@ -45,7 +45,7 @@ To test it, you'd create `spec/rpc/thing_controller_spec.rb`:
 ```ruby
 describe ThingController do
   describe '.get_thing' do
-    let(:request_proto) { Rpc::GetThingResponse.new(id: rand(1..100)) }
+    let(:request_proto) { Rpc::GetThingRequest.new(id: rand(1..100)) }
     
     subject { run_rpc(:GetThing, request_proto) }
     
@@ -84,7 +84,7 @@ You can match against errors as well:
 
 ```ruby
 describe 'testing an error' do
-  let(:request_proto) { Rpc::GetThingResponse.new(id: rand(1..100)) }
+  let(:request_proto) { Rpc::GetThingRequest.new(id: rand(1..100)) }
   
   subject { run_rpc(:GetThing, request_proto) }
   
