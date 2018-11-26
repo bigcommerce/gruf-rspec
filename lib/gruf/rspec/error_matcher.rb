@@ -110,11 +110,7 @@ module Gruf
       # Deserialize the error from the response
       #
       def deserialize_error
-        if @error_serializer
-          @error_serializer.new(@rpc_response.to_status.metadata[Gruf.error_metadata_key.to_sym]).deserialize
-        else
-          nil
-        end
+        @error_serializer.new(@rpc_response.to_status.metadata[Gruf.error_metadata_key.to_sym]).deserialize if @error_serializer
       end
     end
   end
