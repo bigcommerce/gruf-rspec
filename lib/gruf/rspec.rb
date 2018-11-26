@@ -25,36 +25,45 @@ rescue LoadError # old rspec compat
 end
 
 require_relative 'rspec/version'
+require_relative 'rspec/configuration'
 require_relative 'rspec/helpers'
 require_relative 'rspec/error_matcher'
+
+module Gruf
+  module Rspec
+    extend Gruf::Rspec::Configuration
+  end
+end
+
+Gruf::Rspec.reset # initial reset
 
 RSPEC_RUNNER.configure do |config|
   config.include Gruf::Rspec::Helpers
 
-  config.define_derived_metadata(file_path: Regexp.new('/spec/rpc/')) do |metadata|
+  config.define_derived_metadata(file_path: Regexp.new(Gruf::Rspec.rpc_spec_path)) do |metadata|
     metadata[:type] = :gruf_controller
   end
 
   config.before(:each, type: :gruf_controller) do
     define_singleton_method :run_rpc do |method_name, request, &block|
-      gruf_controller = gruf_controller(method_name, request)
-      resp = gruf_controller.call(gruf_controller.request.method_key)
+      @gruf_controller = described_class.new(
+        method_key: method_name.to_s.underscore.to_sym,
+        service: grpc_bound_service,
+        rpc_desc: grpc_bound_service.rpc_descs[method_name.to_sym],
+        active_call: grpc_active_call,
+        message: request
+      )
+      resp = @gruf_controller.call(@gruf_controller.request.method_key)
       block.call(resp) if block && block.is_a?(Proc)
       resp
     end
 
-    define_singleton_method :grpc_service do
+    define_singleton_method :grpc_bound_service do
       described_class.bound_service
     end
 
-    define_singleton_method :gruf_controller do |method_name, request|
-      @gruf_controller ||= described_class.new(
-        method_key: method_name.to_s.underscore.to_sym,
-        service: grpc_service,
-        rpc_desc: grpc_service.rpc_descs[method_name.to_sym],
-        active_call: grpc_active_call,
-        message: request
-      )
+    define_singleton_method :gruf_controller do
+      @gruf_controller
     end
   end
 end

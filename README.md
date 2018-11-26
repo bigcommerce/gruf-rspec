@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.com/bigcommerce/gruf-rspec.svg?token=D3Cc4LCF9BgpUx4dpPpv&branch=master)](https://travis-ci.com/bigcommerce/gruf-rspec)
 
-RSpec assistance helpers and custom type for easy testing Gruf controllers with RSpec.
+Assistance helpers and custom type for easy testing [Gruf](https://github.com/bigcommerce/gruf) controllers with 
+[RSpec](https://github.com/rspec/rspec).
 
 ## Installation
 
@@ -15,6 +16,8 @@ Then add the following code to your `spec_helper.rb`:
 ```ruby
 require 'gruf/rspec'
 ``` 
+
+Note that this gem requires at least Gruf 2.5.1+ and RSpec 3.8+.
 
 ## Usage
 
@@ -65,6 +68,16 @@ it 'will return the thing' do
 end
 ```
 
+### Accessing the Bound Service
+
+Note that you can also access the bound gRPC service class:
+
+```ruby
+it 'binds the service correctly' do
+  expect(grpc_bound_service).to eq Rpc::Things::Service
+end
+``` 
+
 ### Matching Errors
 
 You can match against errors as well:
@@ -99,6 +112,18 @@ end
 
 Note that when using `with_serialized`, you _must_ pass the block with `{ }`, not using
 `do` and `end`.
+
+
+### RSpec Controller Matcher Configuration
+
+By default, the type matcher for Gruf controllers matches in `/spec/rpc`. You can customize this by configuring it
+in the `Gruf::Rspec` confiugration block like so:
+
+```ruby
+Gruf::Rspec.configure do |c|
+  c.rpc_spec_path = '/spec/rpc_controllers'
+end
+```
 
 ## License
 

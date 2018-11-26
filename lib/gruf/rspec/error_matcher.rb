@@ -15,10 +15,18 @@
 #
 module Gruf
   module Rspec
+    ##
+    # Match errors and properly handle validations
+    #
     class ErrorMatcher
       attr_writer :serialized_block
       attr_reader :serialized_block_errors
 
+      ##
+      # @param [Proc] rpc_call_proc The underlying yielded controller proc to call
+      # @param [Class] expected_error_class The expected error class to occur
+      # @param [Proc|lambda|Nil] serialized_block If passed, the serialized block for inspecting errors
+      #
       def initialize(rpc_call_proc:,
                      expected_error_class:,
                      serialized_block:)

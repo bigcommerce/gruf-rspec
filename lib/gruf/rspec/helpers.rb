@@ -13,6 +13,8 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+require_relative 'metadata_factory'
+
 module Gruf
   module Rspec
     module Helpers
@@ -21,7 +23,7 @@ module Gruf
       # @return [Double] The mocked call
       #
       def grpc_active_call(options = {})
-        md = _build_metadata(options)
+        md = _build_active_call_metadata(options)
         double(:grpc_active_call, metadata: md, output_metadata: options.fetch(:output_metadata, {}))
       end
 
@@ -30,16 +32,8 @@ module Gruf
       ##
       # @param [Hash] options
       #
-      def _build_metadata(options)
-        md = options.fetch(:metadata, {})
-        if options.fetch(:authentication_type, :basic) == :basic
-          auth_opts = options.fetch(:authentication_options, {})
-          username = auth_opts.fetch(:username, '')
-          password = auth_opts.fetch(:password, '')
-          auth_string = username.to_s.empty? ? password : "#{username}:#{password}"
-          md[auth_opts.fetch(:header_key, 'authorization').to_s] = "Basic #{Base64.encode64(auth_string)}" unless auth_string.empty?
-        end
-        md
+      def _build_active_call_metadata(options)
+        Gruf::Rspec::MetadataFactory.new(options).build
       end
     end
   end

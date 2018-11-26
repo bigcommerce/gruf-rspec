@@ -13,30 +13,31 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'gruf/rspec/version'
+module Gruf
+  module Rspec
+    module AuthenticationHydrators
+      ##
+      # Automatically hydrate request metadata with basic authentication options
+      #
+      class Basic
+        ##
+        # @param [Hash] metadata The incoming request metadata
+        # @return [Hash] The hydrated metadata
+        #
+        def hydrate(metadata)
+          username = auth_opts.fetch(:username, '')
+          password = auth_opts.fetch(:password, '')
+          auth_string = username.to_s.empty? ? password : "#{username}:#{password}"
+          metadata[auth_opts.fetch(:header_key, 'authorization').to_s] = "Basic #{Base64.encode64(auth_string)}" unless auth_string.empty?
+          metadata
+        end
 
-Gem::Specification.new do |spec|
-  spec.name          = 'gruf-rspec'
-  spec.version       = Gruf::Rspec::VERSION
-  spec.authors       = ['Shaun McCormick']
-  spec.email         = ['splittingred@gmail.com']
-  spec.license       = 'MIT'
+        private
 
-  spec.summary       = %q{RSpec assistance library for gruf}
-  spec.description   = %q{RSpec assistance library for gruf, including testing helpers}
-  spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
-
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
-  spec.require_paths = ['lib']
-
-  spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'pry'
-
-  spec.add_dependency 'gruf', '~> 2.5', '>= 2.5.1'
-  spec.add_dependency 'rspec', '~> 3.8'
+        def auth_opts
+          @auth_opts ||= @options.fetch(:authentication_options, {})
+        end
+      end
+    end
+  end
 end
