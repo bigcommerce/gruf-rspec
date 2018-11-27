@@ -89,3 +89,15 @@ RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
     @error_matcher.error_message
   end
 end
+
+RSPEC_NAMESPACE::Matchers.define :be_a_successful_rpc do |_|
+  match do |actual|
+    if !gruf_controller || actual.is_a?(GRPC::BadStatus) || actual.is_a?(GRPC::Core::CallError)
+      false
+    else
+      method_key = gruf_controller.request.method_key.to_s.camelcase.to_sym
+      expected_class = gruf_controller.class.bound_service.rpc_descs[method_key].output
+      expected_class == actual.class
+    end
+  end
+end
