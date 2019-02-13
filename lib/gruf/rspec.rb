@@ -16,12 +16,12 @@
 begin
   require 'rspec/core'
   require 'rspec/expectations'
-  RSPEC_NAMESPACE = RSpec
-  RSPEC_RUNNER = RSpec
+  GRUF_RSPEC_NAMESPACE = RSpec
+  GRUF_RSPEC_RUNNER = RSpec
 rescue LoadError # old rspec compat
   require 'spec'
-  RSPEC_NAMESPACE = Spec
-  RSPEC_RUNNER = Spec::Runner
+  GRUF_RSPEC_NAMESPACE = Spec
+  GRUF_RSPEC_RUNNER = Spec::Runner
 end
 
 require_relative 'rspec/version'
@@ -37,7 +37,7 @@ end
 
 Gruf::Rspec.reset # initial reset
 
-RSPEC_RUNNER.configure do |config|
+GRUF_RSPEC_RUNNER.configure do |config|
   config.include Gruf::Rspec::Helpers
 
   config.define_derived_metadata(file_path: Regexp.new(Gruf::Rspec.rpc_spec_path)) do |metadata|
@@ -68,7 +68,7 @@ RSPEC_RUNNER.configure do |config|
   end
 end
 
-RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
+GRUF_RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
   supports_block_expectations
 
   def with_serialized(&block)
@@ -90,7 +90,7 @@ RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
   end
 end
 
-RSPEC_NAMESPACE::Matchers.define :be_a_successful_rpc do |_|
+GRUF_RSPEC_NAMESPACE::Matchers.define :be_a_successful_rpc do |_|
   match do |actual|
     if !gruf_controller || actual.is_a?(GRPC::BadStatus) || actual.is_a?(GRPC::Core::CallError)
       false
