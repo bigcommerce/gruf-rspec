@@ -1,6 +1,6 @@
 # gruf-rspec
 
-[![Build Status](https://travis-ci.com/bigcommerce/gruf-rspec.svg?token=D3Cc4LCF9BgpUx4dpPpv&branch=master)](https://travis-ci.com/bigcommerce/gruf-rspec) [![Gem Version](https://badge.fury.io/rb/gruf-rspec.svg)](https://badge.fury.io/rb/gruf-rspec) [![Documentation](https://inch-ci.org/github/bigcommerce/gruf-rspec.svg?branch=master)](https://inch-ci.org/github/bigcommerce/gruf-rspec?branch=master)
+[![CircleCI](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/master.svg?style=svg)](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/master) [![Gem Version](https://badge.fury.io/rb/gruf-rspec.svg)](https://badge.fury.io/rb/gruf-rspec) [![Documentation](https://inch-ci.org/github/bigcommerce/gruf-rspec.svg?branch=master)](https://inch-ci.org/github/bigcommerce/gruf-rspec?branch=master)
 
 Assistance helpers and custom type for easy testing [Gruf](https://github.com/bigcommerce/gruf) controllers with 
 [RSpec](https://github.com/rspec/rspec).
