@@ -20,7 +20,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 group :development, :test do
-  gem 'rubocop', '~> 0.53.0'
+  gem 'rubocop', '~> 0.70.0'
 end
 
 group :test do
