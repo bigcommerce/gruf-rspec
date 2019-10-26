@@ -45,12 +45,12 @@ GRUF_RSPEC_RUNNER.configure do |config|
   end
 
   config.before(:each, type: :gruf_controller) do
-    define_singleton_method :run_rpc do |method_name, request, &block|
+    define_singleton_method :run_rpc do |method_name, request, active_call_options: {}, &block|
       @gruf_controller = described_class.new(
         method_key: method_name.to_s.underscore.to_sym,
         service: grpc_bound_service,
         rpc_desc: grpc_bound_service.rpc_descs[method_name.to_sym],
-        active_call: grpc_active_call,
+        active_call: grpc_active_call(active_call_options),
         message: request
       )
       resp = @gruf_controller.call(@gruf_controller.request.method_key)

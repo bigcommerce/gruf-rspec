@@ -22,7 +22,8 @@ Note that this gem requires at least Gruf 2.5.1+ and RSpec 3.8+.
 ## Usage
 
 * Add a test for a Gruf controller in `spec/rpc`
-* Run the `run_rpc` method with two args: The gRPC method name, and the request object
+* Run the `run_rpc` method with three args: The gRPC method name, the request object
+and the active_call_options. The third argument is optional.
 * Validate the response
 
 ## Example
@@ -46,9 +47,12 @@ To test it, you'd create `spec/rpc/thing_controller_spec.rb`:
 describe ThingController do
   describe '.get_thing' do
     let(:request_proto) { Rpc::GetThingRequest.new(id: rand(1..100)) }
-    
-    subject { run_rpc(:GetThing, request_proto) }
-    
+    let(:metadata) {
+      { 'user_id' => 'axj42i' }
+    }
+
+    subject { run_rpc(:GetThing, request_proto, active_call_options: { metadata: metadata }) }
+
     it 'will return the thing' do
       expect(subject).to be_a(Rpc::GetThingResponse)
       expect(subject.id).to eq request_proto.id
