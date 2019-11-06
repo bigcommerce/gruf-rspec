@@ -2,6 +2,10 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.1.3
+
+* Add ability to include metadata in rpc calls
+
 ### 0.1.2
 
 * Fix issue with RSPEC_NAMESPACE conflicts with other gems
