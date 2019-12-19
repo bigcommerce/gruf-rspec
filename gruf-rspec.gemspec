@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -28,8 +30,8 @@ Gem::Specification.new do |spec|
   spec.description   = %q{RSpec assistance library for gruf, including testing helpers}
   spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+  spec.required_ruby_version = '~> 2.4'
+
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
   spec.require_paths = ['lib']
 

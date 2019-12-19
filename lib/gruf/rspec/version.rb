@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -15,6 +17,6 @@
 #
 module Gruf
   module Rspec
-    VERSION = '0.1.3'.freeze
+    VERSION = '0.2.0.pre'
   end
 end

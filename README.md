@@ -17,7 +17,7 @@ Then add the following code to your `spec_helper.rb`:
 require 'gruf/rspec'
 ``` 
 
-Note that this gem requires at least Gruf 2.5.1+ and RSpec 3.8+.
+Note that this gem requires at least Ruby 2.4+, Gruf 2.5.1+, and RSpec 3.8+.
 
 ## Usage
 

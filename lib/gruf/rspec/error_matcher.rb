@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -110,7 +112,7 @@ module Gruf
       # Deserialize the error from the response
       #
       def deserialize_error
-        @error_serializer.new(@rpc_response.to_status.metadata[Gruf.error_metadata_key.to_sym]).deserialize if @error_serializer
+        @error_serializer&.new(@rpc_response.to_status.metadata[Gruf.error_metadata_key.to_sym])&.deserialize
       end
     end
   end

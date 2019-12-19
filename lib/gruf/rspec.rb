@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -29,7 +31,13 @@ require_relative 'rspec/configuration'
 require_relative 'rspec/helpers'
 require_relative 'rspec/error_matcher'
 
+##
+# Base gruf module
+#
 module Gruf
+  ##
+  # Base gruf-rspec module
+  #
   module Rspec
     extend Gruf::Rspec::Configuration
   end
@@ -54,7 +62,7 @@ GRUF_RSPEC_RUNNER.configure do |config|
         message: request
       )
       resp = @gruf_controller.call(@gruf_controller.request.method_key)
-      block.call(resp) if block && block.is_a?(Proc)
+      block.call(resp) if block&.is_a?(Proc)
       resp
     end
 

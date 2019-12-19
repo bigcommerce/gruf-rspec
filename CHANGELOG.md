@@ -2,6 +2,10 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.2.0
+
+* Deprecate support for Ruby < 2.4
+
 ### 0.1.3
 
 * Add ability to include metadata in rpc calls

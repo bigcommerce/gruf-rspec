@@ -18,19 +18,19 @@ executors:
     parameters:
       ruby-version:
         type: string
-        default: "2.4.6"
+        default: "2.4.9"
   ruby_2_5:
     <<: *ruby_env
     parameters:
       ruby-version:
         type: string
-        default: "2.5.5"
+        default: "2.5.7"
   ruby_2_6:
     <<: *ruby_env
     parameters:
       ruby-version:
         type: string
-        default: "2.6.3"
+        default: "2.6.5"
 
 commands:
   pre-setup:

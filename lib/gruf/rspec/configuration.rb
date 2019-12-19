@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -27,7 +29,7 @@ module Gruf
           base: Gruf::Rspec::AuthenticationHydrators::Base,
           basic: Gruf::Rspec::AuthenticationHydrators::Basic
         },
-        rpc_spec_path: '/spec/rpc/'.freeze
+        rpc_spec_path: '/spec/rpc/'
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys
@@ -71,7 +73,7 @@ module Gruf
         VALID_CONFIG_KEYS.each do |k, v|
           send((k.to_s + '='), v)
         end
-        self.rpc_spec_path = '/spec/rpc/'.freeze
+        self.rpc_spec_path = '/spec/rpc/'
         options
       end
     end
