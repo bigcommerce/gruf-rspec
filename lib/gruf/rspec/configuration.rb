@@ -29,7 +29,7 @@ module Gruf
           base: Gruf::Rspec::AuthenticationHydrators::Base,
           basic: Gruf::Rspec::AuthenticationHydrators::Basic
         },
-        rpc_spec_path: '/spec/rpc/'
+        rpc_spec_path: ENV.fetch('RPC_SPEC_PATH', '/spec/rpc/').to_s,
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys
