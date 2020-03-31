@@ -2,6 +2,14 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.2.2
+
+* Loosen rspec dependency
+
+### 0.2.1
+
+* Loosen rack dependency
+
 ### 0.2.0
 
 * Deprecate support for Ruby < 2.4
