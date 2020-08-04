@@ -73,7 +73,7 @@ module Gruf
         VALID_CONFIG_KEYS.each do |k, v|
           send((k.to_s + '='), v)
         end
-        self.rpc_spec_path = '/spec/rpc/'
+        self.rpc_spec_path = VALID_CONFIG_KEYS[:rpc_spec_path]
         options
       end
     end
