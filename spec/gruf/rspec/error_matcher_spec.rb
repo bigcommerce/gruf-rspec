@@ -30,13 +30,13 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     )
   end
 
-  describe '.valid?' do
+  describe '#valid?' do
     subject { error_matcher.valid? }
 
     context 'when the error class matches' do
       let(:rpc_call_proc) { Proc.new { raise expected_error_class } }
 
-      it 'should be valid' do
+      it 'returns true' do
         expect(subject).to be_truthy
       end
 
@@ -47,7 +47,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
           end
         end
 
-        it 'should not be valid' do
+        it 'returns false' do
           expect(subject).to be_falsey
         end
       end
@@ -59,7 +59,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
           end
         end
 
-        it 'should be valid' do
+        it 'returns true' do
           expect(subject).to be_truthy
         end
       end
@@ -68,7 +68,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     context 'when the error class does not match' do
       let(:rpc_call_proc) { Proc.new { raise GRPC::InvalidArgument } }
 
-      it 'should not be valid' do
+      it 'returns false' do
         expect(subject).to be_falsey
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     context 'when no error is thrown' do
       let(:rpc_call_proc) { Proc.new { true } }
 
-      it 'should not be valid' do
+      it 'returns false' do
         expect(subject).to be_falsey
       end
     end

@@ -22,7 +22,7 @@ RSpec.describe Gruf::Rspec::MetadataFactory do
   let(:metadata) { {} }
   let(:factory) { described_class.new(options) }
 
-  describe '.build' do
+  describe '#build' do
     subject { factory.build(metadata) }
 
     context 'when using basic auth' do
