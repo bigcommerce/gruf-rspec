@@ -24,12 +24,14 @@ module Gruf
     # Represents configuration settings for the system
     #
     module Configuration
+      DEFAULT_RSPEC_PATH = '/spec/rpc/'
+
       VALID_CONFIG_KEYS = {
         authentication_hydrators: {
           base: Gruf::Rspec::AuthenticationHydrators::Base,
           basic: Gruf::Rspec::AuthenticationHydrators::Basic
         },
-        rpc_spec_path: ENV.fetch('RPC_SPEC_PATH', '/spec/rpc/').to_s,
+        rpc_spec_path: ENV.fetch('RPC_SPEC_PATH', DEFAULT_RSPEC_PATH).to_s
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys
@@ -71,9 +73,9 @@ module Gruf
       #
       def reset
         VALID_CONFIG_KEYS.each do |k, v|
-          send((k.to_s + '='), v)
+          send("#{k}=", v)
         end
-        self.rpc_spec_path = '/spec/rpc/'
+        self.rpc_spec_path = ::ENV.fetch('RPC_SPEC_PATH', DEFAULT_RSPEC_PATH).to_s
         options
       end
     end

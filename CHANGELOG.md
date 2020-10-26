@@ -2,6 +2,9 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Drop support for Ruby < 2.6, add 2.7 tests
+- Update rubocop to 1.0
+
 ### 0.2.2
 
 * Loosen rspec dependency

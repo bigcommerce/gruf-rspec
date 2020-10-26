@@ -18,11 +18,10 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'bundler/setup'
 require_relative 'simplecov_helper'
-require 'grpc'
 require 'gruf'
 require 'gruf/rspec'
 
-Dir["#{File.join(File.dirname(__FILE__), 'support')}/**/*.rb"].each {|f| require f }
+Dir["#{File.join(File.dirname(__FILE__), 'support')}/**/*.rb"].sort.each {|f| require f }
 
 RSpec.configure do |config|
   config.color = true
