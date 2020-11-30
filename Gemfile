@@ -20,15 +20,3 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gemspec
-
-group :development, :test do
-  gem 'rubocop',                '~> 0.78'
-end
-
-group :test do
-  gem 'bundler-audit',          '~> 0.6'
-  gem 'null-logger',            '~> 0.1'
-  gem 'rspec',                  '~> 3.8'
-  gem 'rspec_junit_formatter',  '~> 0.4'
-  gem 'simplecov',              '~> 0.16', require: false
-end

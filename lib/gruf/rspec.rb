@@ -45,6 +45,7 @@ end
 
 Gruf::Rspec.reset # initial reset
 
+# rubocop:disable ThreadSafety/InstanceVariableInClassMethod
 GRUF_RSPEC_RUNNER.configure do |config|
   config.include Gruf::Rspec::Helpers
 
@@ -62,7 +63,7 @@ GRUF_RSPEC_RUNNER.configure do |config|
         message: request
       )
       resp = @gruf_controller.call(@gruf_controller.request.method_key)
-      block.call(resp) if block&.is_a?(Proc)
+      block.call(resp) if block.is_a?(Proc)
       resp
     end
 
@@ -75,6 +76,7 @@ GRUF_RSPEC_RUNNER.configure do |config|
     end
   end
 end
+# rubocop:enable ThreadSafety/InstanceVariableInClassMethod
 
 GRUF_RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
   supports_block_expectations

@@ -21,28 +21,29 @@ class TestConfiguration
   include Gruf::Rspec::Configuration
 end
 
-RSpec.describe Gruf::Rspec::Configuration do
+describe Gruf::Rspec::Configuration do
   let(:obj) { TestConfiguration.new }
 
-  describe '.reset' do
+  describe '#reset' do
     subject { obj.rpc_spec_path }
 
-    it 'should reset config vars to default' do
+    it 'resets config vars to default' do
       obj.configure do |c|
         c.rpc_spec_path = '/spec/gruf/'
       end
       obj.reset
-      expect(subject).to_not eq '/spec/gruf/'
+      expect(subject).not_to eq '/spec/gruf/'
     end
   end
 
-  describe '.options' do
+  describe '#options' do
     subject { obj.options }
+
     before do
       obj.reset
     end
 
-    it 'should return the options hash' do
+    it 'returns the options hash' do
       expect(obj.options).to be_a(Hash)
       expect(obj.options[:rpc_spec_path]).to eq '/spec/rpc/'
     end

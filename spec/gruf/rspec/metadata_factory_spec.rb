@@ -17,12 +17,12 @@
 #
 require 'spec_helper'
 
-RSpec.describe Gruf::Rspec::MetadataFactory do
+describe Gruf::Rspec::MetadataFactory do
   let(:options) { {} }
   let(:metadata) { {} }
   let(:factory) { described_class.new(options) }
 
-  describe '.build' do
+  describe '#build' do
     subject { factory.build(metadata) }
 
     context 'when using basic auth' do
@@ -33,20 +33,20 @@ RSpec.describe Gruf::Rspec::MetadataFactory do
           authentication_options: {
             header_key: 'authorization',
             username: username,
-            password: password,
+            password: password
           },
           authentication_type: :basic
         }
       end
 
-      it 'should hydrate the auth' do
-        expect(subject.key?('authorization')).to be_truthy
+      it 'hydrates the auth' do
+        expect(subject).to have_key('authorization')
         expect(subject['authorization']).to eq "Basic #{Base64.encode64('foo:bar')}"
       end
     end
 
     context 'when using no auth' do
-      it 'should noop' do
+      it 'no-ops' do
         expect(subject).to eq({})
       end
     end

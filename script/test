@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+echo "Running bundle install..."
+bundle install
+
+echo "Running bundler-audit..."
+bundle exec bundle-audit update
+bundle exec bundle-audit check
+
+echo "Running rubocop..."
+bundle exec rubocop -P -c ./.rubocop.yml
+
+echo "Running rspec..."
+bundle exec rspec
+
+echo "Tests finished."

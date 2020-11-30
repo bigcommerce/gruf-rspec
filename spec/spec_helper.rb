@@ -15,23 +15,15 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'bundler/setup'
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require_relative 'simplecov_helper'
-require 'grpc'
 require 'gruf'
 require 'gruf/rspec'
 
-Dir["#{File.join(File.dirname(__FILE__), 'support')}/**/*.rb"].each {|f| require f }
+Dir["#{File.join(__dir__, 'support')}/**/*.rb"].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.color = true
-  config.disable_monkey_patching!
-  config.example_status_persistence_file_path = '.rspec_status'
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-  config.filter_run_excluding broken: true
   config.mock_with :rspec do |mocks|
     mocks.allow_message_expectations_on_nil = true
   end

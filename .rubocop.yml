@@ -1,18 +1,53 @@
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
-    - spec/**/*
     - .bundle/**/*
-    - bin/**/*
     - vendor/**/*
     - tmp/**/*
     - log/**/*
-    - Rakefile
-    - gruf-rspec.gemspec
+    - spec/support/**/*
+    - spec/factories/**/*
+    - spec/fixtures/**/*
+require:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-thread_safety
 
 Lint/AmbiguousOperator:
   Exclude:
     - lib/gruf/rspec/configuration.rb
 
 Layout/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+####################################################################################################
+# RSpec Configurations
+####################################################################################################
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/MultipleExpectations:
+  Max: 30
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 50
+
+RSpec/StubbedMock:
+  Enabled: false
+
+# This does not work with RPC messages
+RSpec/VerifiedDoubles:
   Enabled: false
