@@ -40,14 +40,30 @@ RSpec.describe Gruf::Rspec::Configuration do
   end
 
   describe '.options' do
-    subject { obj.options }
-    before do
-      obj.reset
+    subject(:options) { obj.options }
+
+    before { obj.reset }
+
+    it 'should return the options hash with any configured values' do
+      obj.configure { |c| c.rpc_spec_path = custom_path }
+
+      expect(options).to be_a(Hash)
+      expect(options[:rpc_spec_path]).to eq custom_path
     end
 
-    it 'should return the options hash' do
-      expect(obj.options).to be_a(Hash)
-      expect(obj.options[:rpc_spec_path]).to eq '/spec/rpc/'
+    context 'when RPC_SPEC_PATH is set' do
+      before { ENV["RPC_SPEC_PATH"] = custom_path }
+      after { ENV["RPC_SPEC_PATH"] = nil }
+
+      it "returns the path from the environment variable" do
+        expect(options[:rpc_spec_path]).to eq custom_path
+      end
+    end
+
+    context 'when RPC_SPEC_PATH is not set' do
+      it "returns the default path" do
+        expect(options[:rpc_spec_path]).to eq default_path
+      end
     end
   end
 end
