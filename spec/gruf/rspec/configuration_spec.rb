@@ -23,16 +23,19 @@ end
 
 RSpec.describe Gruf::Rspec::Configuration do
   let(:obj) { TestConfiguration.new }
+  let(:default_path) { '/spec/rpc/' }
+  let(:custom_path) { '/spec/gruf/' }
 
   describe '.reset' do
-    subject { obj.rpc_spec_path }
+    subject(:path) { obj.rpc_spec_path }
+
+    before do
+      obj.configure { |c| c.rpc_spec_path = custom_path }
+      obj.reset
+    end
 
     it 'should reset config vars to default' do
-      obj.configure do |c|
-        c.rpc_spec_path = '/spec/gruf/'
-      end
-      obj.reset
-      expect(subject).to_not eq '/spec/gruf/'
+      expect(path).to eq default_path
     end
   end
 
