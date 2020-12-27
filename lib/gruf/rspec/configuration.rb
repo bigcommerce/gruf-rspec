@@ -25,13 +25,12 @@ module Gruf
     #
     module Configuration
       DEFAULT_RSPEC_PATH = '/spec/rpc/'
-
       VALID_CONFIG_KEYS = {
         authentication_hydrators: {
           base: Gruf::Rspec::AuthenticationHydrators::Base,
           basic: Gruf::Rspec::AuthenticationHydrators::Basic
         },
-        rpc_spec_path: '/spec/rpc/'
+        rpc_spec_path: DEFAULT_RSPEC_PATH
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys
