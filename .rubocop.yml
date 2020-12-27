@@ -1,5 +1,6 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.6
+  NewCops: enable
   Exclude:
     - spec/**/*
     - .bundle/**/*
@@ -7,8 +8,6 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - log/**/*
-    - Rakefile
-    - gruf-rspec.gemspec
 
 Lint/AmbiguousOperator:
   Exclude:

@@ -62,7 +62,7 @@ GRUF_RSPEC_RUNNER.configure do |config|
         message: request
       )
       resp = @gruf_controller.call(@gruf_controller.request.method_key)
-      block.call(resp) if block&.is_a?(Proc)
+      block.call(resp) if block.is_a?(Proc)
       resp
     end
 

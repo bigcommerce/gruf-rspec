@@ -24,6 +24,8 @@ module Gruf
     # Represents configuration settings for the system
     #
     module Configuration
+      DEFAULT_RSPEC_PATH = '/spec/rpc/'
+
       VALID_CONFIG_KEYS = {
         authentication_hydrators: {
           base: Gruf::Rspec::AuthenticationHydrators::Base,

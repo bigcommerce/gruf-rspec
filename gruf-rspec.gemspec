@@ -15,7 +15,7 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gruf/rspec/version'
 
@@ -26,18 +26,22 @@ Gem::Specification.new do |spec|
   spec.email         = ['splittingred@gmail.com']
   spec.license       = 'MIT'
 
-  spec.summary       = %q{RSpec assistance library for gruf}
-  spec.description   = %q{RSpec assistance library for gruf, including testing helpers}
+  spec.summary       = 'RSpec assistance library for gruf'
+  spec.description   = 'RSpec assistance library for gruf, including testing helpers'
   spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
 
-  spec.required_ruby_version = '~> 2.4'
+  spec.required_ruby_version = '>= 2.6'
 
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.17'
-  spec.add_development_dependency 'rake', '>= 12.3'
-  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'bundler', '~> 1.11'
+  spec.add_development_dependency 'bundler-audit', '~> 0.6'
+  spec.add_development_dependency 'pry', '>= 0.13'
+  spec.add_development_dependency 'rspec', '~> 3.8'
+  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4'
+  spec.add_development_dependency 'rubocop', '~> 0.82'
+  spec.add_development_dependency 'simplecov', '~> 0.15'
 
   spec.add_dependency 'gruf', '~> 2.5', '>= 2.5.1'
   spec.add_dependency 'rspec', '>= 3.8'
