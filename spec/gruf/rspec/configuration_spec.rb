@@ -55,7 +55,7 @@ RSpec.describe Gruf::Rspec::Configuration do
       before { ENV["RPC_SPEC_PATH"] = custom_path }
       after { ENV["RPC_SPEC_PATH"] = nil }
 
-      it "returns the path from the environment variable" do
+      it 'returns the path from the environment variable' do
         expect(options[:rpc_spec_path]).to eq custom_path
       end
     end
