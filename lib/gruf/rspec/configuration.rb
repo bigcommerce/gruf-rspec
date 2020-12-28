@@ -60,9 +60,9 @@ module Gruf
       def options
         {}.tap do |opts|
           VALID_CONFIG_KEYS.each_key do |k|
-            next opts.merge!(k => ENV.fetch('RPC_SPEC_PATH', send(k))) if k == :rpc_spec_path
+            next opts[k] = ENV.fetch('RPC_SPEC_PATH', send(k)) if k == :rpc_spec_path
 
-            opts.merge!(k => send(k))
+            opts[k] = send(k)
           end
         end
       end
