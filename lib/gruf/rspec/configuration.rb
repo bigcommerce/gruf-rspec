@@ -74,7 +74,7 @@ module Gruf
       #
       def reset
         VALID_CONFIG_KEYS.each { |k, v| send("#{k}=", v) }
-        options
+        options.tap { |o| self.rpc_spec_path = o[:rpc_spec_path] }
       end
     end
   end
