@@ -129,6 +129,23 @@ Gruf::Rspec.configure do |c|
 end
 ```
 
+Alternatively, you can pass configuration of the path via ENV. For example, where 
+`RPC_SPEC_PATH="/spec/rpc_controllers"` is set in a `.env` file:
+
+```bash
+bundle exec dotenv rspec
+```
+
+Or, add `require: false` to the gemspec for the `gruf-rspec` gem, and then explicitly require it after setting the ENV
+var:
+
+```ruby
+Dotenv.load # assuming the .env file has the RPC_SPEC_PATH var set
+# or:
+ENV['RPC_SPEC_PATH'] = '/spec/rpc_controllers'
+require 'gruf/rspec'
+```
+
 ## License
 
 Copyright (c) 2018-present, BigCommerce Pty. Ltd. All rights reserved
