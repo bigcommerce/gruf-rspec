@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Adds support for Ruby 3.0 into test suite
+
 ### 0.3.0
 
 - [#7] Fix issue where RPC_SPEC_PATH defaulting is hardcoded 
