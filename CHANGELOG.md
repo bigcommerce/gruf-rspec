@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.4.0
+
 - Remove unnecessarily strict dev dependencies
 - Adds support for Ruby 3.0 into test suite
 
@@ -25,7 +27,7 @@ Changelog for the gruf-rspec gem.
 
 ### 0.1.3
 
-* Add ability to include metadata in rpc calls
+* Add ability to include metadata in rpc callsa
 
 ### 0.1.2
 
