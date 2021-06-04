@@ -2,6 +2,7 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Remove unnecessarily strict dev dependencies
 - Adds support for Ruby 3.0 into test suite
 
 ### 0.3.0
