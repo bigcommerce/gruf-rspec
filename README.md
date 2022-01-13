@@ -1,6 +1,6 @@
 # gruf-rspec
 
-[![CircleCI](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main.svg?style=svg)](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main) [![Gem Version](https://badge.fury.io/rb/gruf-rspec.svg)](https://badge.fury.io/rb/gruf-rspec) [![Documentation](https://inch-ci.org/github/bigcommerce/gruf-rspec.svg?branch=main)](https://inch-ci.org/github/bigcommerce/gruf-rspec?branch=main)
+[![CircleCI](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main.svg?style=svg)](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main) [![Gem Version](https://badge.fury.io/rb/gruf-rspec.svg)](https://badge.fury.io/rb/gruf-rspec) [![Documentation](https://inch-ci.org/github/bigcommerce/gruf-rspec.svg?branch=main)](https://inch-ci.org/github/bigcommerce/gruf-rspec?branch=main) [![Maintainability](https://api.codeclimate.com/v1/badges/db2d134a7148dde045b7/maintainability)](https://codeclimate.com/github/bigcommerce/gruf-rspec/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/db2d134a7148dde045b7/test_coverage)](https://codeclimate.com/github/bigcommerce/gruf-rspec/test_coverage)
 
 Assistance helpers and custom type for easy testing [Gruf](https://github.com/bigcommerce/gruf) controllers with 
 [RSpec](https://github.com/rspec/rspec).
