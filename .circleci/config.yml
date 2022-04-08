@@ -13,15 +13,9 @@ ruby_env: &ruby_env
     RAILS_ENV: test
     RUBY_VERSION: <<parameters.ruby-version>>
   docker:
-    - image: circleci/ruby:<<parameters.ruby-version>>
+    - image: cimg/ruby:<<parameters.ruby-version>>
 
 executors:
-  ruby_2_6:
-    <<: *ruby_env
-    parameters:
-      ruby-version:
-        type: string
-        default: "2.6"
   ruby_2_7:
     <<: *ruby_env
     parameters:
@@ -34,6 +28,12 @@ executors:
       ruby-version:
         type: string
         default: "3.0"
+  ruby_3_1:
+    <<: *ruby_env
+    parameters:
+      ruby-version:
+        type: string
+        default: "3.1"
 
 commands:
   pre-setup:
@@ -45,6 +45,9 @@ commands:
       gem_cache_key:
         type: string
         default: gem-cache-v2
+      grpc_ruby_build_procs:
+        type: integer
+        default: 4
     steps:
       - restore_cache:
           keys:
@@ -54,9 +57,13 @@ commands:
       - run:
           name: "Bundle install"
           command: |
+            export GRPC_RUBY_BUILD_PROCS=<<parameters.grpc_ruby_build_procs>>
+            # due to needing GRPC_RUBY_BUILD_PROCS, we need to explicitly install at least this version
+            gem install grpc -v '>= 1.44.0.pre2' --verbose --no-document
             bundle config set --local path 'vendor/bundle'
             bundle lock --add-platform x86_64-linux
             bundle check || bundle install
+            bundle clean
       - save_cache:
           key: <<parameters.gem_cache_key>>-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
@@ -113,7 +120,7 @@ jobs:
     parameters:
       e:
         type: executor
-        default: "ruby_2_6"
+        default: "ruby_2_7"
     steps:
       - pre-setup
       - bundle-install
@@ -123,7 +130,7 @@ jobs:
     parameters:
       e:
         type: executor
-        default: "ruby_2_6"
+        default: "ruby_2_7"
     steps:
       - pre-setup
       - bundle-install
@@ -133,7 +140,7 @@ jobs:
     parameters:
       e:
         type: executor
-        default: "ruby_2_6"
+        default: "ruby_2_7"
       code-climate:
         type: boolean
         default: false
@@ -145,17 +152,6 @@ jobs:
 
 workflows:
   version: 2
-  ruby_2_6:
-    jobs:
-      - bundle-audit:
-          name: "ruby-2_6-bundle_audit"
-          e: "ruby_2_6"
-      - rubocop:
-          name: "ruby-2_6-rubocop"
-          e: "ruby_2_6"
-      - rspec-unit:
-          name: "ruby-2_6-rspec"
-          e: "ruby_2_6"
   ruby_2_7:
     jobs:
       - bundle-audit:
@@ -179,3 +175,14 @@ workflows:
           name: "ruby-3_0-rspec"
           e: "ruby_3_0"
           code-climate: true
+  ruby_3_1:
+    jobs:
+      - bundle-audit:
+          name: "ruby-3_1-bundle_audit"
+          e: "ruby_3_1"
+      - rubocop:
+          name: "ruby-3_1-rubocop"
+          e: "ruby_3_1"
+      - rspec-unit:
+          name: "ruby-3_1-rspec"
+          e: "ruby_3_1"
