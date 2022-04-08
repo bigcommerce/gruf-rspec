@@ -2,6 +2,9 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Add support for Ruby 3.1
+- Drop support for Ruby 2.6
+
 ### 0.4.0
 
 - Remove unnecessarily strict dev dependencies
