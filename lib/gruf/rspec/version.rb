@@ -17,6 +17,6 @@
 #
 module Gruf
   module Rspec
-    VERSION = '0.4.1.pre'
+    VERSION = '0.5.0'
   end
 end

@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.5.0
+
 - Add support for Ruby 3.1
 - Drop support for Ruby 2.6
 
