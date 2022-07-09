@@ -2,7 +2,7 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
-### 0.6.x
+### 0.6.0
 
 - Add better support for Gruf 2.15+ autoloading in a Rails test environment
 - Use zeitwerk for autoloading in this library
