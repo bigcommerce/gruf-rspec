@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main.svg?style=svg)](https://circleci.com/gh/bigcommerce/gruf-rspec/tree/main) [![Gem Version](https://badge.fury.io/rb/gruf-rspec.svg)](https://badge.fury.io/rb/gruf-rspec) [![Documentation](https://inch-ci.org/github/bigcommerce/gruf-rspec.svg?branch=main)](https://inch-ci.org/github/bigcommerce/gruf-rspec?branch=main) [![Maintainability](https://api.codeclimate.com/v1/badges/db2d134a7148dde045b7/maintainability)](https://codeclimate.com/github/bigcommerce/gruf-rspec/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/db2d134a7148dde045b7/test_coverage)](https://codeclimate.com/github/bigcommerce/gruf-rspec/test_coverage)
 
-Assistance helpers and custom type for easy testing [Gruf](https://github.com/bigcommerce/gruf) controllers with 
+Assistance helpers and custom type for easy testing [Gruf](https://github.com/bigcommerce/gruf) controllers with
 [RSpec](https://github.com/rspec/rspec).
 
 ## Installation
@@ -10,12 +10,6 @@ Assistance helpers and custom type for easy testing [Gruf](https://github.com/bi
 ```ruby
 gem 'gruf-rspec'
 ```
-    
-Then add the following code to your `spec_helper.rb`:
-
-```ruby
-require 'gruf/rspec'
-``` 
 
 Note that this gem requires at least Ruby 2.7+, Gruf 2.5.1+, and RSpec 3.8+.
 
@@ -28,13 +22,13 @@ and the active_call_options. The third argument is optional.
 
 ## Example
 
-Let's assume you have a gruf controller named `ThingController` that is bound to the gRPC 
+Let's assume you have a gruf controller named `ThingController` that is bound to the gRPC
 service `Rpc::Things::Service`. That has a method `GetThing`:
 
 ```ruby
 class ThingController < Gruf::Controllers::Base
   bind ::Rpc::Things::Service
-  
+
   def get_thing
     Rpc::GetThingResponse.new(id: request.message.id)
   end
@@ -45,7 +39,7 @@ To test it, you'd create `spec/rpc/thing_controller_spec.rb`:
 
 ```ruby
 describe ThingController do
-  describe '.get_thing' do
+  describe '#get_thing' do
     let(:request_proto) { Rpc::GetThingRequest.new(id: rand(1..100)) }
     let(:metadata) {
       { 'user_id' => 'axj42i' }
@@ -53,8 +47,8 @@ describe ThingController do
 
     subject { run_rpc(:GetThing, request_proto, active_call_options: { metadata: metadata }) }
 
-    it 'will return the thing' do
-      expect(subject).to be_a(Rpc::GetThingResponse)
+    it 'returns the thing' do
+      expect(subject).to be_a_successful_rpc
       expect(subject.id).to eq request_proto.id
     end
   end
@@ -64,9 +58,9 @@ end
 Alternatively, you can pass a block:
 
 ```ruby
-it 'will return the thing' do
+it 'returns the thing' do
   run_rpc(:GetThing, request_proto) do |resp|
-    expect(resp).to be_a(Rpc::GetThingResponse)
+    expect(resp).to be_a_successful_rpc
     expect(resp.id).to eq request_proto.id
   end
 end
@@ -80,7 +74,7 @@ Note that you can also access the bound gRPC service class:
 it 'binds the service correctly' do
   expect(grpc_bound_service).to eq Rpc::Things::Service
 end
-``` 
+```
 
 ### Matching Errors
 
@@ -89,9 +83,9 @@ You can match against errors as well:
 ```ruby
 describe 'testing an error' do
   let(:request_proto) { Rpc::GetThingRequest.new(id: rand(1..100)) }
-  
+
   subject { run_rpc(:GetThing, request_proto) }
-  
+
   it 'should fail with the appropriate error' do
     expect { subject }.to raise_rpc_error(GRPC::InvalidArgument)
   end
@@ -105,18 +99,17 @@ it 'should fail with the appropriate error code' do
   expect { subject }.to raise_rpc_error(GRPC::InvalidArgument).with_serialized { |err|
     expect(err).to be_a(MyCustomErrorClass)
     expect(err.error_code).to eq 'invalid_request'
-  
+
     fe = err.field_errors.first
     expect(fe.field_name).to eq 'name'
     expect(fe.error_code).to eq 'invalid_name'
-    expect(fe.error_message).to eq 
+    expect(fe.error_message).to eq 'That name is already taken!'
   }
 end
 ```
 
 Note that when using `with_serialized`, you _must_ pass the block with `{ }`, not using
 `do` and `end`.
-
 
 ### RSpec Controller Matcher Configuration
 
@@ -129,7 +122,7 @@ Gruf::Rspec.configure do |c|
 end
 ```
 
-Alternatively, you can pass configuration of the path via ENV. For example, where 
+Alternatively, you can pass configuration of the path via ENV. For example, where
 `RPC_SPEC_PATH="/spec/rpc_controllers"` is set in a `.env` file:
 
 ```bash

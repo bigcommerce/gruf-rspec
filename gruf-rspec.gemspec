@@ -15,9 +15,7 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'gruf/rspec/version'
+require_relative 'lib/gruf/rspec/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'gruf-rspec'
@@ -31,9 +29,10 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
 
   spec.required_ruby_version = '>= 2.7'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
-  spec.require_paths = ['lib']
+  spec.require_paths = %w[lib]
 
   spec.add_development_dependency 'bundler-audit', '>= 0.6'
   spec.add_development_dependency 'pry', '>= 0.13'
@@ -43,4 +42,5 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'gruf', '~> 2.5', '>= 2.5.1'
   spec.add_runtime_dependency 'rspec', '>= 3.8'
+  spec.add_runtime_dependency 'zeitwerk', '>= 2'
 end

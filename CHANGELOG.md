@@ -2,6 +2,11 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 0.6.x
+
+- Add better support for Gruf 2.15+ autoloading in a Rails test environment
+- Use zeitwerk for autoloading in this library
+
 ### 0.5.0
 
 - Add support for Ruby 3.1
@@ -14,7 +19,7 @@ Changelog for the gruf-rspec gem.
 
 ### 0.3.0
 
-- [#7] Fix issue where RPC_SPEC_PATH defaulting is hardcoded 
+- [#7] Fix issue where RPC_SPEC_PATH defaulting is hardcoded
 - Drop support for Ruby < 2.6, add 2.7 tests
 - Update rubocop to 1.0
 

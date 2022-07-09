@@ -26,10 +26,15 @@ rescue LoadError # old rspec compat
   GRUF_RSPEC_RUNNER = Spec::Runner
 end
 
-require_relative 'rspec/version'
-require_relative 'rspec/configuration'
-require_relative 'rspec/helpers'
-require_relative 'rspec/error_matcher'
+# use Zeitwerk to lazily autoload all the files in the lib directory
+require 'zeitwerk'
+lib_path = File.dirname(__dir__)
+loader = ::Zeitwerk::Loader.new
+loader.tag = 'gruf-rspec'
+loader.inflector = ::Zeitwerk::GemInflector.new(__FILE__)
+loader.ignore("#{lib_path}/gruf/rspec/railtie.rb")
+loader.push_dir(lib_path)
+loader.setup
 
 ##
 # Base gruf module
@@ -44,6 +49,14 @@ module Gruf
 end
 
 Gruf::Rspec.reset # initial reset
+
+# Attempt to load railtie if we're in a rails environment. This assists with autoloading in a rails rspec context
+begin
+  require 'rails'
+rescue LoadError
+  nil
+end
+require_relative 'rspec/railtie' if defined?(::Rails::Railtie)
 
 GRUF_RSPEC_RUNNER.configure do |config|
   config.include Gruf::Rspec::Helpers
