@@ -2,6 +2,9 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Add support for Ruby 3.2
+- Drop support for Ruby 2.7 (EOL March 2023)
+
 ### 0.6.0
 
 - Add better support for Gruf 2.15+ autoloading in a Rails test environment

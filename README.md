@@ -11,7 +11,7 @@ Assistance helpers and custom type for easy testing [Gruf](https://github.com/bi
 gem 'gruf-rspec'
 ```
 
-Note that this gem requires at least Ruby 2.7+, Gruf 2.5.1+, and RSpec 3.8+.
+Note that this gem requires at least Ruby 3.0+, Gruf 2.5.1+, and RSpec 3.8+.
 
 ## Usage
 
@@ -86,7 +86,7 @@ describe 'testing an error' do
 
   subject { run_rpc(:GetThing, request_proto) }
 
-  it 'should fail with the appropriate error' do
+  it 'fails with the appropriate error' do
     expect { subject }.to raise_rpc_error(GRPC::InvalidArgument)
   end
 end
@@ -95,7 +95,7 @@ end
 Or further, even check your serialized error that is passed in metadata:
 
 ```ruby
-it 'should fail with the appropriate error code' do
+it 'fails with the appropriate error code' do
   expect { subject }.to raise_rpc_error(GRPC::InvalidArgument).with_serialized { |err|
     expect(err).to be_a(MyCustomErrorClass)
     expect(err.error_code).to eq 'invalid_request'

@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   NewCops: enable
   Exclude:
     - spec/**/*
@@ -14,4 +14,7 @@ Lint/AmbiguousOperator:
     - lib/gruf/rspec/configuration.rb
 
 Layout/LineLength:
+  Enabled: false
+
+Style/RedundantConstantBase:
   Enabled: false
