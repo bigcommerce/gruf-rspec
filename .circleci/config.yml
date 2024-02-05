@@ -34,6 +34,12 @@ executors:
       ruby-version:
         type: string
         default: "3.2"
+  ruby_3_3:
+    <<: *ruby_env
+    parameters:
+      ruby-version:
+        type: string
+        default: "3.3"
 
 commands:
   pre-setup:
@@ -44,7 +50,7 @@ commands:
     parameters:
       gem_cache_key:
         type: string
-        default: gem-cache-v2
+        default: gem-cache-v3
       grpc_ruby_build_procs:
         type: integer
         default: 4
@@ -58,8 +64,6 @@ commands:
           name: "Bundle install"
           command: |
             export GRPC_RUBY_BUILD_PROCS=<<parameters.grpc_ruby_build_procs>>
-            # due to needing GRPC_RUBY_BUILD_PROCS, we need to explicitly install at least this version
-            gem install grpc -v '>= 1.44.0.pre2' --verbose --no-document
             bundle config set --local path 'vendor/bundle'
             bundle lock --add-platform x86_64-linux
             bundle check || bundle install
@@ -186,3 +190,14 @@ workflows:
       - rspec-unit:
           name: "ruby-3_2-rspec"
           e: "ruby_3_2"
+  ruby_3_3:
+    jobs:
+      - bundle-audit:
+          name: "ruby-3_3-bundle_audit"
+          e: "ruby_3_3"
+      - rubocop:
+          name: "ruby-3_3-rubocop"
+          e: "ruby_3_3"
+      - rspec-unit:
+          name: "ruby-3_3-rspec"
+          e: "ruby_3_3"
