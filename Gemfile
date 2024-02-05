@@ -19,4 +19,10 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+gem 'bundler-audit', '>= 0.6'
+gem 'pry', '>= 0.13'
+gem 'rspec_junit_formatter', '>= 0.4'
+gem 'rubocop', '>= 0.82'
+gem 'simplecov', '>= 0.15'
+
 gemspec
