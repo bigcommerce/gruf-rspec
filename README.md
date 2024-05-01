@@ -114,7 +114,7 @@ Note that when using `with_serialized`, you _must_ pass the block with `{ }`, no
 ### RSpec Controller Matcher Configuration
 
 By default, the type matcher for Gruf controllers matches in `/spec/rpc`. You can customize this by configuring it
-in the `Gruf::Rspec` confiugration block like so:
+in the `Gruf::Rspec` configuration block like so:
 
 ```ruby
 Gruf::Rspec.configure do |c|
