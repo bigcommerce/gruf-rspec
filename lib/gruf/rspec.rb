@@ -15,16 +15,8 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-begin
-  require 'rspec/core'
-  require 'rspec/expectations'
-  GRUF_RSPEC_NAMESPACE = RSpec
-  GRUF_RSPEC_RUNNER = RSpec
-rescue LoadError # old rspec compat
-  require 'spec'
-  GRUF_RSPEC_NAMESPACE = Spec
-  GRUF_RSPEC_RUNNER = Spec::Runner
-end
+require 'rspec/core'
+require 'rspec/expectations'
 
 # use Zeitwerk to lazily autoload all the files in the lib directory
 require 'zeitwerk'
@@ -58,7 +50,7 @@ rescue LoadError
 end
 require_relative 'rspec/railtie' if defined?(::Rails::Railtie)
 
-GRUF_RSPEC_RUNNER.configure do |config|
+RSpec.configure do |config|
   config.include Gruf::Rspec::Helpers
 
   config.define_derived_metadata(file_path: Regexp.new(Gruf::Rspec.rpc_spec_path)) do |metadata|
@@ -89,7 +81,7 @@ GRUF_RSPEC_RUNNER.configure do |config|
   end
 end
 
-GRUF_RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
+RSpec::Matchers.define :raise_rpc_error do |expected_error_class|
   supports_block_expectations
 
   def with_serialized(&block)
@@ -111,7 +103,7 @@ GRUF_RSPEC_NAMESPACE::Matchers.define :raise_rpc_error do |expected_error_class|
   end
 end
 
-GRUF_RSPEC_NAMESPACE::Matchers.define :be_a_successful_rpc do |_|
+RSpec::Matchers.define :be_a_successful_rpc do |_|
   match do |actual|
     if !gruf_controller || actual.is_a?(GRPC::BadStatus) || actual.is_a?(GRPC::Core::CallError)
       false
