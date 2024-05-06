@@ -2,6 +2,10 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 1.0.1
+
+- [#23] Only depend on rspec-core/rspec-expectations
+
 ### 1.0.0
 
 - Add support for Ruby 3.2, 3.3
