@@ -16,5 +16,6 @@
 #
 require 'bundler/setup'
 require 'gruf/rspec'
-require 'irb'
-IRB.start(__FILE__)
+
+require 'pry'
+Pry.start(__FILE__)
