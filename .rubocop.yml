@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
     - spec/**/*
@@ -8,6 +8,12 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - log/**/*
+plugins:
+  - rubocop-packaging
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-thread_safety
 
 Lint/AmbiguousOperator:
   Exclude:

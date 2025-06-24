@@ -28,15 +28,15 @@ Gem::Specification.new do |spec|
   spec.description   = 'RSpec assistance library for gruf, including testing helpers'
   spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
 
-  spec.required_ruby_version = '>= 3.0', '< 4'
+  spec.required_ruby_version = '>= 3.2', '< 4'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
   spec.require_paths = %w[lib]
 
-  spec.add_runtime_dependency 'gruf', '~> 2.5', '>= 2.5.1'
-  spec.add_runtime_dependency 'rake', '>= 12.3'
-  spec.add_runtime_dependency 'rspec-core', '>= 3.8'
-  spec.add_runtime_dependency 'rspec-expectations', '>= 3.8'
-  spec.add_runtime_dependency 'zeitwerk', '>= 2'
+  spec.add_dependency 'gruf', '~> 2.5', '>= 2.5.1'
+  spec.add_dependency 'rake', '>= 12.3'
+  spec.add_dependency 'rspec-core', '>= 3.8'
+  spec.add_dependency 'rspec-expectations', '>= 3.8'
+  spec.add_dependency 'zeitwerk', '>= 2'
 end

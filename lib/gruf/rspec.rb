@@ -15,18 +15,9 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+require_relative '../autoloader'
 require 'rspec/core'
 require 'rspec/expectations'
-
-# use Zeitwerk to lazily autoload all the files in the lib directory
-require 'zeitwerk'
-lib_path = File.dirname(__dir__)
-loader = ::Zeitwerk::Loader.new
-loader.tag = 'gruf-rspec'
-loader.inflector = ::Zeitwerk::GemInflector.new(__FILE__)
-loader.ignore("#{lib_path}/gruf/rspec/railtie.rb")
-loader.push_dir(lib_path)
-loader.setup
 
 ##
 # Base gruf module
@@ -42,7 +33,7 @@ end
 
 Gruf::Rspec.reset # initial reset
 
-# Attempt to load railtie if we're in a rails environment. This assists with autoloading in a rails rspec context
+# Attempt to load railtie if we're in a Rails environment. This assists with autoloading in a Rails rspec context
 begin
   require 'rails'
 rescue LoadError
@@ -57,6 +48,7 @@ RSpec.configure do |config|
     metadata[:type] = :gruf_controller
   end
 
+  # rubocop:disable ThreadSafety/ClassInstanceVariable
   config.before(:each, type: :gruf_controller) do
     define_singleton_method :run_rpc do |method_name, request, active_call_options: {}, &block|
       @gruf_controller = described_class.new(
@@ -79,6 +71,7 @@ RSpec.configure do |config|
       @gruf_controller
     end
   end
+  # rubocop:enable ThreadSafety/ClassInstanceVariable
 end
 
 RSpec::Matchers.define :raise_rpc_error do |expected_error_class|

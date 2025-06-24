@@ -70,7 +70,7 @@ module Gruf
       #
       def reset
         VALID_CONFIG_KEYS.each do |k, v|
-          send("#{k}=", v)
+          send(:"#{k}=", v)
         end
         self.rpc_spec_path = ::ENV.fetch('RPC_SPEC_PATH', DEFAULT_RSPEC_PATH).to_s
         options
