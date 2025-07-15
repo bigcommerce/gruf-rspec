@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 1.1.1
+
 - Fix autoloading issue in certain Rails environments
 
 ### 1.1.0
