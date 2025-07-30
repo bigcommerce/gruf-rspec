@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Add peer expectation to active_call stub
+
 ### 1.1.1
 
 - Fix autoloading issue in certain Rails environments

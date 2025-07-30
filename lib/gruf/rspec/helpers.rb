@@ -27,7 +27,15 @@ module Gruf
       #
       def grpc_active_call(options = {})
         md = _build_active_call_metadata(options)
-        double(:grpc_active_call, metadata: md, output_metadata: options.fetch(:output_metadata, {}))
+        double(
+          :grpc_active_call,
+          metadata: md,
+          output_metadata: options.fetch(:output_metadata, {}),
+          # gRPC calls this on initialization of an GRPC::ActiveCall now, so we need to provide stubbed value
+          # (defaulting to nil is fine, but we provide an option to override)
+          # @see https://github.com/grpc/grpc/blob/v1.74.0/src/ruby/lib/grpc/generic/active_call.rb#L113
+          peer: options.fetch(:peer, nil)
+        )
       end
 
       private
