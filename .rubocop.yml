@@ -2,7 +2,6 @@ AllCops:
   TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
-    - spec/**/*
     - .bundle/**/*
     - bin/**/*
     - vendor/**/*
@@ -15,11 +14,13 @@ plugins:
   - rubocop-rspec
   - rubocop-thread_safety
 
-Lint/AmbiguousOperator:
-  Exclude:
-    - lib/gruf/rspec/configuration.rb
-
 Layout/LineLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
   Enabled: false
 
 Style/RedundantConstantBase:
