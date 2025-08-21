@@ -33,20 +33,20 @@ RSpec.describe Gruf::Rspec::MetadataFactory do
           authentication_options: {
             header_key: 'authorization',
             username: username,
-            password: password,
+            password: password
           },
           authentication_type: :basic
         }
       end
 
-      it 'should hydrate the auth' do
+      it 'hydrates the auth' do
         expect(subject.key?('authorization')).to be_truthy
         expect(subject['authorization']).to eq "Basic #{Base64.encode64('foo:bar')}"
       end
     end
 
     context 'when using no auth' do
-      it 'should noop' do
+      it 'noops' do
         expect(subject).to eq({})
       end
     end

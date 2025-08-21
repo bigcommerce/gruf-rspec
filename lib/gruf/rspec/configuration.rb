@@ -31,7 +31,7 @@ module Gruf
         rpc_spec_path: ENV.fetch('RPC_SPEC_PATH', DEFAULT_RSPEC_PATH).to_s
       }.freeze
 
-      attr_accessor *VALID_CONFIG_KEYS.keys
+      attr_accessor(*VALID_CONFIG_KEYS.keys)
 
       ##
       # Whenever this is extended into a class, setup the defaults

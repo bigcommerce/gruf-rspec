@@ -18,7 +18,7 @@
 require 'spec_helper'
 
 RSpec.describe Gruf::Rspec::ErrorMatcher do
-  let(:rpc_call_proc) { Proc.new { true } }
+  let(:rpc_call_proc) { proc { true } }
   let(:expected_error_class) { GRPC::NotFound }
   let(:serialized_block) { nil }
 
@@ -34,7 +34,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     subject { error_matcher.valid? }
 
     context 'when the error class matches' do
-      let(:rpc_call_proc) { Proc.new { raise expected_error_class } }
+      let(:rpc_call_proc) { proc { raise expected_error_class } }
 
       it 'returns true' do
         expect(subject).to be_truthy
@@ -42,7 +42,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
 
       context 'when there failed expectations in the serialized block' do
         let(:serialized_block) do
-          Proc.new do
+          proc do
             expect(true).to be_falsey
           end
         end
@@ -54,7 +54,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
 
       context 'when there are all passing expectations in the serialized block' do
         let(:serialized_block) do
-          Proc.new do
+          proc do
             expect(true).to be_truthy
           end
         end
@@ -66,7 +66,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     end
 
     context 'when the error class does not match' do
-      let(:rpc_call_proc) { Proc.new { raise GRPC::InvalidArgument } }
+      let(:rpc_call_proc) { proc { raise GRPC::InvalidArgument } }
 
       it 'returns false' do
         expect(subject).to be_falsey
@@ -74,7 +74,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
     end
 
     context 'when no error is thrown' do
-      let(:rpc_call_proc) { Proc.new { true } }
+      let(:rpc_call_proc) { proc { true } }
 
       it 'returns false' do
         expect(subject).to be_falsey

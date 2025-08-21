@@ -16,10 +16,6 @@ plugins:
   - rubocop-rspec
   - rubocop-thread_safety
 
-Lint/AmbiguousOperator:
-  Exclude:
-    - lib/gruf/rspec/configuration.rb
-
 Layout/LineLength:
   Enabled: false
 
