@@ -43,7 +43,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
       context 'when there failed expectations in the serialized block' do
         let(:serialized_block) do
           proc do
-            expect(true).to be_falsey
+            expect(true).to be_falsey # rubocop:disable RSpec/ExpectInLet
           end
         end
 
@@ -55,7 +55,7 @@ RSpec.describe Gruf::Rspec::ErrorMatcher do
       context 'when there are all passing expectations in the serialized block' do
         let(:serialized_block) do
           proc do
-            expect(true).to be_truthy
+            expect(true).to be_truthy # rubocop:disable RSpec/ExpectInLet
           end
         end
 
