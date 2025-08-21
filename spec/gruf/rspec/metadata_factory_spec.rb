@@ -40,7 +40,7 @@ RSpec.describe Gruf::Rspec::MetadataFactory do
       end
 
       it 'hydrates the auth' do
-        expect(subject.key?('authorization')).to be_truthy
+        expect(subject).to be_key('authorization')
         expect(subject['authorization']).to eq "Basic #{Base64.encode64('foo:bar')}"
       end
     end

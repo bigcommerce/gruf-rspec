@@ -6,12 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/RedundantDirGlobSort:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 # Offense count: 2
 RSpec/ExpectInLet:
   Exclude:
@@ -34,11 +28,3 @@ RSpec/NamedSubject:
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 4
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Strict, EnforcedStyle, AllowedExplicitMatchers.
-# SupportedStyles: inflected, explicit
-RSpec/PredicateMatcher:
-  Exclude:
-    - 'spec/gruf/rspec/metadata_factory_spec.rb'
