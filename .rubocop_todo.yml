@@ -15,15 +15,6 @@ RSpec/ExpectInLet:
 RSpec/MultipleExpectations:
   Max: 2
 
-# Offense count: 9
-# Configuration parameters: EnforcedStyle, IgnoreSharedExamples.
-# SupportedStyles: always, named_only
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/gruf/rspec/configuration_spec.rb'
-    - 'spec/gruf/rspec/error_matcher_spec.rb'
-    - 'spec/gruf/rspec/metadata_factory_spec.rb'
-
 # Offense count: 2
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
