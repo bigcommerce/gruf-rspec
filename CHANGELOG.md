@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+### 1.2.0
+
 - Add Ruby 4.0 support
 
 ### 1.1.2
