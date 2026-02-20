@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  code-climate: bigcommerce/internal-codeclimate@volatile
-
 ruby_env: &ruby_env
   working_directory: ~/repo
   environment:
@@ -34,6 +31,12 @@ executors:
       ruby-version:
         type: string
         default: "3.4"
+  ruby_4_0:
+    <<: *ruby_env
+    parameters:
+      ruby-version:
+        type: string
+        default: "4.0"
 
 commands:
   pre-setup:
@@ -74,15 +77,8 @@ commands:
       glob:
         type: string
         default: ""
-      code-climate:
-        type: boolean
-        default: false
     steps:
       - run: mkdir ~/rspec
-      - when:
-          condition: <<parameters.code-climate>>
-          steps:
-            - code-climate/setup
       - run:
           name: "Run rspec tests"
           command: |
@@ -90,14 +86,6 @@ commands:
             echo "Running: ${TESTFILES}"
             bundle exec rspec --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml <<parameters.additional_args>> -- ${TESTFILES}
           when: always
-      - when:
-          condition: <<parameters.code-climate>>
-          steps:
-            - code-climate/store-report:
-                coverage-format: "simplecov"
-            - code-climate/sum-coverage
-            - code-climate/after-build:
-                coverage-format: "simplecov"
       - store_test_results:
           path: ~/rspec
   bundle-audit:
@@ -110,7 +98,7 @@ commands:
       - run: bundle exec bundle-audit check -v <<parameters.additional_args>>
   rubocop:
     steps:
-      - run: bundle exec rubocop -p
+      - run: bundle exec rubocop -P
 
 jobs:
   bundle-audit:
@@ -139,14 +127,10 @@ jobs:
       e:
         type: executor
         default: "ruby_3_2"
-      code-climate:
-        type: boolean
-        default: false
     steps:
       - pre-setup
       - bundle-install
-      - rspec-unit:
-          code-climate: <<parameters.code-climate>>
+      - rspec-unit
 
 workflows:
   version: 2
@@ -183,3 +167,14 @@ workflows:
       - rspec-unit:
           name: "ruby-3_4-rspec"
           e: "ruby_3_4"
+  ruby_4_0:
+    jobs:
+      - bundle-audit:
+          name: "ruby-4_0-bundle_audit"
+          e: "ruby_4_0"
+      - rubocop:
+          name: "ruby-4_0-rubocop"
+          e: "ruby_4_0"
+      - rspec-unit:
+          name: "ruby-4_0-rspec"
+          e: "ruby_4_0"

@@ -2,6 +2,8 @@ Changelog for the gruf-rspec gem.
 
 ### Pending release
 
+- Add Ruby 4.0 support
+
 ### 1.1.2
 
 - Add peer expectation to active_call stub

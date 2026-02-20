@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'RSpec assistance library for gruf, including testing helpers'
   spec.homepage      = 'https://github.com/bigcommerce/gruf-rspec'
 
-  spec.required_ruby_version = '>= 3.2', '< 4'
+  spec.required_ruby_version = '>= 3.2', '< 5'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-rspec.gemspec']
